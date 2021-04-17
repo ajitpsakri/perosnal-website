@@ -1,0 +1,647 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Regular Expression </title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="00264bf7-8387-456e-bb33-87e1414c6a77" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/solid_yellow.png" style="object-position:center 40%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://cocoacontrols-production.s3.amazonaws.com/uploads/control_image/image/2438/icon.png"/></div><h1 class="page-title">Regular Expression </h1></header><div class="page-body"><ul id="66130249-40fb-4194-ac08-4cc1f155c0d5" class="toggle"><li><details open=""><summary>Intro</summary><ol id="4877a751-5905-4ba2-a6fa-9e7dc27dfd2e" class="numbered-list" start="1"><li>Regular expression are searching patterns in strings </li></ol><ol id="5a1da5a2-57f5-41ad-964a-b0004b8fae77" class="numbered-list" start="2"><li>Think of regular expression as an Advance search of <strong>ctrl + f. </strong>If you learn this then you can find maybe two words at a time or find any number that starts with 9 </li></ol></details></li></ul><ul id="507014ae-8f29-4b24-a29a-c9f3fc046f51" class="toggle"><li><details open=""><summary>Meta Character </summary><ul id="2c396334-5b97-4866-8421-1c8f42e6ad65" class="toggle"><li><details open=""><summary>Single Character</summary><ol id="1ae4d852-aacf-4528-b4aa-2f0197cfdbc8" class="numbered-list" start="1"><li><strong>\d </strong>- any number between 0 to 9</li></ol><ol id="f93488e1-0fdf-44e8-bbb8-19dea939675f" class="numbered-list" start="2"><li><strong>\w </strong> - anything in between A-z, a-z, 0-9</li></ol><ol id="84921e93-efe0-4781-9a2f-d916430d394b" class="numbered-list" start="3"><li><strong>\s</strong> - White space </li></ol><ol id="edc448d7-0380-4197-9318-bff83b79f689" class="numbered-list" start="4"><li><strong>DOT(.)</strong> - any character </li></ol><ol id="410c87e5-8229-4fab-9db8-2ab8fec53ea2" class="numbered-list" start="5"><li><strong>\S</strong> - Any thing that does not include white space<ol id="0ff9a5a3-d190-411a-8521-f304488a0697" class="numbered-list" start="1"><li>ricewater(when applied rice\s) - I detect ricewater</li></ol><ol id="eee25679-9fa6-4665-93e9-efc5064931fa" class="numbered-list" start="2"><li>rice water(when applied rice\s) - i detect rice </li></ol></li></ol><ol id="85ca77a7-304e-42db-928a-e85b9d49f51a" class="numbered-list" start="6"><li><strong>\W - </strong>Anything that does not include A-z, a-z, 0-9<ol id="92056252-a00a-43da-868e-18e4a985d8e7" class="numbered-list" start="1"><li>Any symbol like # $ %</li></ol></li></ol></details></li></ul><ul id="55b05c00-9e07-4480-ba5d-520088b7dd5e" class="toggle"><li><details open=""><summary>Quantifiers(Specifies quantity of characters to detect)</summary><ol id="890863c6-3b99-4bd1-9890-c8c6cd79b6d6" class="numbered-list" start="1"><li><strong>Multiplication symbol(*)</strong> - 0 or more i.e. any number character </li></ol><ol id="69dfa52f-def6-43bd-b2c3-a241e5afcd29" class="numbered-list" start="2"><li><strong>Plus symbol (+) </strong>- 1 or more characters</li></ol><ol id="644435e8-2660-419b-8487-b43aa2fb5851" class="numbered-list" start="3"><li><strong>Question Mark (?)</strong> - 0 or 1<ol id="cbae87b8-8bb4-47ee-bf9e-e1897d2f4333" class="numbered-list" start="1"><li>Example - The <strong>colors </strong>of the rainbow have many <strong>colours</strong> and the rainbow does not have a single <strong>colour</strong>.</li></ol><pre id="b5ad28cc-a841-4c48-822f-c6bec3696f07" class="code"><code>colou?rs? - colou(u repeats 0 or 1 times)rs(s repeats 0 or 1 times)
+						</code></pre></li></ol><ol id="c6dd3e39-9047-4779-bfa6-7db6bff4b773" class="numbered-list" start="4"><li><strong>{min,max}</strong> - any character in between min and max<ol id="b6d30ffd-7dac-4729-b430-513dc4601481" class="numbered-list" start="1"><li>hello world how are you - {e , a} - ello world how a</li></ol></li></ol><ol id="a65c90d4-2430-4aa8-856e-4c0c56c9b1f4" class="numbered-list" start="5"><li><strong>{n} </strong>- How many characters</li></ol></details></li></ul><ul id="4d457182-a132-48d2-88e7-1f429899ae42" class="toggle"><li><details open=""><summary>Position </summary><ol id="2a165a89-f91f-4cb3-a476-393461f65e5f" class="numbered-list" start="1"><li><strong>^ </strong> at beginning </li></ol><ol id="3c7508cb-06a8-4f01-a0d5-4166603fddd1" class="numbered-list" start="2"><li><strong>$</strong> at the end</li></ol><ol id="969e344e-5c0c-4013-aaab-d6b58a8506cd" class="numbered-list" start="3"><li><strong>\b</strong> word boundary <pre id="951b92f2-0ae8-41a0-b256-f5d0e77ed7a6" class="code"><code>\b w+{4}\b - match any words which have 4 characters in it 
+					 - Do not match any character the is a part of the word
+					 - &quot;what are chores&quot; -&gt; what ores❌    what✅</code></pre><figure id="5f061575-0204-4a55-b25e-0155054ca52a" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-24_21-56-45.png"><img style="width:576px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-24_21-56-45.png"/></a></figure><p id="09887c41-114b-4061-869c-0da00d503e74" class="">
+</p></li></ol></details></li></ul><p id="f4b7d1a2-11b1-40df-a87d-0cf3c6d2327f" class="">To use full stop we have to use <strong>\.</strong><div class="indented"><blockquote id="682ffd97-03b9-4582-8d56-90f630295ee0" class="">If any character is showing error then try doing \ character so that we get literal character.</blockquote></div></p></details></li></ul><ul id="269972da-b2de-4e4e-b050-30b50621ae14" class="toggle"><li><details open=""><summary>Character classes</summary><ol id="ef4930e0-7ed7-4a31-85f8-9a682afcdc2a" class="numbered-list" start="1"><li>Character classes are those that appear in between square characters which have or like operation<pre id="5b9bfc4c-ad12-4c6d-a11b-adec4b1eb795" class="code"><code>1. [abc] - match a or b or c
+
+2. [-.] - match literal -. //In character class means full stop not any character
+
+3. (net|nonet) - match net or nonet</code></pre></li></ol><ol id="6d6a30e9-52fe-4ddc-8ed5-a8b90df6eecf" class="numbered-list" start="2"><li>Examples of Character classes<figure id="47e42989-d7fe-4981-854d-3e524703be43" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_21-40-26.png"><img style="width:672px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_21-40-26.png"/></a></figure><hr id="d5d8d45b-21ea-4c1d-a43b-b108637e7449"/><figure id="d1611c5e-f8f8-4bfc-b456-7f84ab94f576" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_22-23-24.png"><img style="width:672px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_22-23-24.png"/></a><figcaption>Number should be circular parenthesis or none followed by 3 digits followed by <strong>- or . or ) </strong>followed by 3 digits followed by <strong>- or . </strong>followed by 4 digits </figcaption></figure></li></ol><ol id="1bc7b3a4-1291-4a61-a59b-7a60bb7116b8" class="numbered-list" start="3"><li>Special characters in character classes <ol id="b8e336a8-f424-432d-afa2-6a5fd817184f" class="numbered-list" start="1"><li>^ It acts as negation if it is in the start but acts as literal it it is in the middle <figure id="abcbe101-6274-4f8b-b55d-828997ad52c5" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_23-26-05.png"><img style="width:623px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_23-26-05.png"/></a></figure><figure id="cd7bd99a-8503-4b45-9c2d-c0684ca8eedf" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_23-29-45.png"><img style="width:625px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_23-29-45.png"/></a></figure><figure id="b0da9379-e01d-4962-b101-dcd01f233d92" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_23-31-05.png"><img style="width:336px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_23-31-05.png"/></a></figure><figure id="e4cad163-6cb4-436e-9c2f-52a63448090f" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_23-31-11.png"><img style="width:336px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_23-31-11.png"/></a></figure></li></ol><ol id="95626877-7f68-4329-913c-9a1b2d709f3d" class="numbered-list" start="2"><li><strong>-</strong> acts as from a to b(a-b),it works as literal - if it is at the beginning <figure id="1933a508-9ecf-4c94-9474-8664eec9a6d6" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_22-46-11.png"><img style="width:618px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-03-25_22-46-11.png"/></a></figure><p id="054ec032-e617-471c-b34c-201d44d3342b" class="">
+</p></li></ol></li></ol><p id="9d97eedd-cba1-4d79-9661-dab9dc76784b" class="">
+</p></details></li></ul><ul id="896c56aa-e50f-4352-8519-f688723fc217" class="toggle"><li><details open=""><summary>Capturing Groups</summary><ol id="4c903648-a98a-44b8-a147-2205642ff0ea" class="numbered-list" start="1"><li>In previous topics we have seen how to identify different patterns in a string, In this Topic, we are going to discuss how to do operation on them like replacing some part of the string :D</li></ol><ol id="5d706903-fe1b-4950-9031-b162121fe61d" class="numbered-list" start="2"><li>Putting circular bracket means we are creating a group and to access those groups we use $1 for group one or \1(we can use this in the regular expression itself) for group one<figure id="6a4fed4b-59bd-430d-862e-d2f224900dfe" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-04-11_17-37-08.png"><img style="width:432px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Screenshot_from_2021-04-11_17-37-08.png"/></a></figure><p id="9e2ecbeb-1bd6-4464-94d5-57302aee8b89" class="">
+</p><figure id="318910bc-9d3b-4844-a2b3-5b240e18224f" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled.png"><img style="width:672px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled.png"/></a><figcaption>Example of using capture groups in regular expression itself</figcaption></figure></li></ol><ol id="1509ccd5-aeb1-4df9-a0e0-dab15b67b7cd" class="numbered-list" start="3"><li>$0 is not first group but the whole group</li></ol><ol id="dd57df13-e785-423d-8d12-59be00252f62" class="numbered-list" start="4"><li><strong>.* </strong>is anything - this is a greedy <ol id="40caf907-dfb1-4a9f-aaf0-212689e71409" class="numbered-list" start="1"><li>we have to add ? to make .* not greedy   </li></ol></li></ol></details></li></ul><ul id="2635b3b4-0736-4740-a066-5bb853668226" class="toggle"><li><details open=""><summary>Regex in JS</summary><ol id="c0034dd2-a81e-4741-8fa7-903201de8a67" class="numbered-list" start="1"><li>You create strings like this<pre id="8014aa73-c8fa-4e35-9d2d-0dc4b42d62d3" class="code"><code>let s = &quot;hello this is a normal string&quot;;</code></pre></li></ol><ol id="4b54d5ae-747d-47f5-8021-d469500c18ea" class="numbered-list" start="2"><li>You create regex like this <pre id="04f7ea2f-788f-470a-8525-4bc6eab27be6" class="code"><code>let r = /hello this is regular expression/;</code></pre></li></ol><ol id="db925563-9d2f-49d2-b5cf-99d7f0eb566c" class="numbered-list" start="3"><li>Converting string to regex<pre id="19fbaf62-a9dc-4194-af2d-e58823b24014" class="code"><code>new RegExp(&quot;hello i&#x27;m a string&quot;);</code></pre></li></ol></details></li></ul><ul id="03b8c2d4-5e71-488d-9a39-f3a9ab5fbb30" class="toggle"><li><details open=""><summary>Flags→ Are a way to modify the behaviour of regular expression</summary><ol id="9b85412e-ac46-44e0-a8c9-0a392286ddc5" class="numbered-list" start="1"><li>g - match all of them<strong>(But will not return groups 1 on wards)</strong></li></ol><ol id="50664285-9fff-4456-bed8-914348709936" class="numbered-list" start="2"><li>i - case insensitive</li></ol><figure id="14e6fffc-cce9-4390-a9b0-e6307b06d46b" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%201.png"><img style="width:288px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%201.png"/></a></figure><p id="72d31a60-8685-465d-a720-777fbadd85b1" class="">
+</p></details></li></ul><ul id="d3996c28-66cd-41cb-839f-534d7e2db894" class="toggle"><li><details open=""><summary>Functions in Regex</summary><ol id="a9331fd6-46a7-4666-b853-958ca176ad57" class="numbered-list" start="1"><li>Usually, functions are in the form of <pre id="5738731e-3046-452d-998c-01d0b3e5155d" class="code"><code>string.function(Regular-expression)
+						or
+regular-expression.function(string)</code></pre></li></ol><ol id="11f760eb-b609-444a-938c-5db8f33ee7ce" class="numbered-list" start="2"><li><strong>.test() function </strong><pre id="f954fd7a-5b87-4294-b1e2-41a230ea2131" class="code"><code>let s = &quot;let us code&quot;;
+let r = /us/;
+r.test(s); //returns true</code></pre></li></ol><ol id="f5c3c288-d9d7-49be-841f-e81369f240de" class="numbered-list" start="3"><li><strong>.match() function</strong><pre id="50893358-36f6-4c68-b02c-8a50d129dbd4" class="code"><code>let s = &quot;hey we are coders&quot;;
+let r = /coders/;
+s.match(r); // returns &quot;coders&quot;</code></pre></li></ol><ol id="2e1817d7-af29-4ae4-8540-cdae67bd4d23" class="numbered-list" start="4"><li><strong>.exec()</strong> → As we saw if we use global flag then it will return all the string that matches the regex but does not return groups that regex create <strong>and </strong>if we remove g flag then we get all the groups but do not get all the strings that regex matches, to solve this we use exec()<p id="d3bcefa5-3765-403c-8d02-ef509e2894be" class="">
+</p><figure id="691309b7-cafc-475e-b40b-52fee16cf449" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%202.png"><img style="width:384px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%202.png"/></a></figure></li></ol><ol id="251a4b8e-06f0-4998-b292-028c6584237d" class="numbered-list" start="5"><li><strong>.split()</strong> → this is in the form <em>string.split(regex) </em><ul id="53bbbf5a-5fb8-4887-86ad-8b73d7b25573" class="toggle"><li><details open=""><summary>Examples</summary><figure id="5daf2240-33c9-47e2-bbf0-e73e6295bcf2" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%203.png"><img style="width:1017px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%203.png"/></a><figcaption>split the string with respect to white-space</figcaption></figure><figure id="55a78342-d0b1-4dc6-a90b-7e218db814ab" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%204.png"><img style="width:790px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%204.png"/></a></figure><ul id="312e066f-09f5-4c2c-bcbc-0e310c0e594d" class="bulleted-list"><li>If you want to include the strings that split the we use <strong>(). </strong>let me show you how 👇<figure id="af0ca44c-d8b2-4673-93fb-bc406d603a75" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%205.png"><img style="width:672px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%205.png"/></a></figure><p id="fb6428d3-37de-46d6-81cb-995ff88e2e30" class="">
+</p></li></ul></details></li></ul></li></ol><ol id="817d0741-128a-46a7-acb4-b7d6e6c49d46" class="numbered-list" start="6"><li><strong>.replace()</strong><ol id="84560392-ee30-4cd2-ba1f-ef5d680e511b" class="numbered-list" start="1"><li><em>string.replace(regex,what-to-replace-with)</em></li></ol><ol id="54420ffe-22f6-400a-8ef6-3cbf90674b76" class="numbered-list" start="2"><li><strong>Here we are not replacing the original string but returning the replace string </strong><figure id="1182ca2b-601c-4e12-a543-7e6887de6539" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%206.png"><img style="width:550px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%206.png"/></a><figcaption>Basic example</figcaption></figure></li></ol><ol id="9270f39d-c13f-467b-95f9-e5684b970c72" class="numbered-list" start="3"><li>callback function in <strong>.replace()</strong> ⇒ <em>string.replace(regex,callback-function )</em>  <figure id="c37108c7-631d-47b1-b0a0-4e3f5e20f90e" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%207.png"><img style="width:995px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%207.png"/></a></figure></li></ol><ol id="660ade6c-ed39-40d2-9e9d-547ae56fb964" class="numbered-list" start="4"><li>with match we can add group-1 group-2 and more as parameters <figure id="45898a61-fef1-4dd1-81fe-7746f74a4e3b" class="image"><a href="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%208.png"><img style="width:919px" src="Regular%20Expression%2000264bf78387456ebb3387e1414c6a77/Untitled%208.png"/></a></figure></li></ol></li></ol></details></li></ul></div></article></body></html>
